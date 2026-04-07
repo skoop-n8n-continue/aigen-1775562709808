@@ -15,7 +15,7 @@ const elements = {
     cityName: document.getElementById('city-name'),
     currentDate: document.getElementById('current-date'),
     currentTemp: document.getElementById('current-temp'),
-    weatherIcon: document.getElementById('weather-icon-display'),
+    weatherIcon: document.getElementById('weather-hero-img'),
     weatherDesc: document.getElementById('weather-desc'),
 
     humidity: document.getElementById('humidity'),
@@ -28,39 +28,39 @@ const elements = {
 
 // Weather codes mapping for Open-Meteo
 const weatherCodes = {
-    0: { desc: 'Clear sky', icon: '☀️' },
-    1: { desc: 'Mainly clear', icon: '🌤️' },
-    2: { desc: 'Partly cloudy', icon: '⛅' },
-    3: { desc: 'Overcast', icon: '☁️' },
-    45: { desc: 'Foggy', icon: '🌫️' },
-    48: { desc: 'Depositing rime fog', icon: '🌫️' },
-    51: { desc: 'Light drizzle', icon: '🌦️' },
-    53: { desc: 'Moderate drizzle', icon: '🌦️' },
-    55: { desc: 'Dense drizzle', icon: '🌦️' },
-    56: { desc: 'Light freezing drizzle', icon: '❄️' },
-    57: { desc: 'Dense freezing drizzle', icon: '❄️' },
-    61: { desc: 'Slight rain', icon: '🌧️' },
-    63: { desc: 'Moderate rain', icon: '🌧️' },
-    65: { desc: 'Heavy rain', icon: '🌧️' },
-    66: { desc: 'Light freezing rain', icon: '❄️' },
-    67: { desc: 'Heavy freezing rain', icon: '❄️' },
-    71: { desc: 'Slight snow fall', icon: '🌨️' },
-    73: { desc: 'Moderate snow fall', icon: '🌨️' },
-    75: { desc: 'Heavy snow fall', icon: '🌨️' },
-    77: { desc: 'Snow grains', icon: '🌨️' },
-    80: { desc: 'Slight rain showers', icon: '🌦️' },
-    81: { desc: 'Moderate rain showers', icon: '🌦️' },
-    82: { desc: 'Violent rain showers', icon: '🌧️' },
-    85: { desc: 'Slight snow showers', icon: '🌨️' },
-    86: { desc: 'Heavy snow showers', icon: '🌨️' },
-    95: { desc: 'Thunderstorm', icon: '⛈️' },
-    96: { desc: 'Thunderstorm with slight hail', icon: '⛈️' },
-    99: { desc: 'Thunderstorm with heavy hail', icon: '⛈️' }
+    0: { desc: 'Clear sky', icon: 'assets/sun_icon-1775569678167.png' },
+    1: { desc: 'Mainly clear', icon: 'assets/sun_icon-1775569678167.png' },
+    2: { desc: 'Partly cloudy', icon: 'assets/cloud_icon-1775569699824.png' },
+    3: { desc: 'Overcast', icon: 'assets/cloud_icon-1775569699824.png' },
+    45: { desc: 'Foggy', icon: 'assets/cloud_icon-1775569699824.png' },
+    48: { desc: 'Depositing rime fog', icon: 'assets/cloud_icon-1775569699824.png' },
+    51: { desc: 'Light drizzle', icon: 'assets/rain_icon-1775569720443.png' },
+    53: { desc: 'Moderate drizzle', icon: 'assets/rain_icon-1775569720443.png' },
+    55: { desc: 'Dense drizzle', icon: 'assets/rain_icon-1775569720443.png' },
+    56: { desc: 'Light freezing drizzle', icon: 'assets/rain_icon-1775569720443.png' },
+    57: { desc: 'Dense freezing drizzle', icon: 'assets/rain_icon-1775569720443.png' },
+    61: { desc: 'Slight rain', icon: 'assets/rain_icon-1775569720443.png' },
+    63: { desc: 'Moderate rain', icon: 'assets/rain_icon-1775569720443.png' },
+    65: { desc: 'Heavy rain', icon: 'assets/rain_icon-1775569720443.png' },
+    66: { desc: 'Light freezing rain', icon: 'assets/rain_icon-1775569720443.png' },
+    67: { desc: 'Heavy freezing rain', icon: 'assets/rain_icon-1775569720443.png' },
+    71: { desc: 'Slight snow fall', icon: 'assets/cloud_icon-1775569699824.png' },
+    73: { desc: 'Moderate snow fall', icon: 'assets/cloud_icon-1775569699824.png' },
+    75: { desc: 'Heavy snow fall', icon: 'assets/cloud_icon-1775569699824.png' },
+    77: { desc: 'Snow grains', icon: 'assets/cloud_icon-1775569699824.png' },
+    80: { desc: 'Slight rain showers', icon: 'assets/rain_icon-1775569720443.png' },
+    81: { desc: 'Moderate rain showers', icon: 'assets/rain_icon-1775569720443.png' },
+    82: { desc: 'Violent rain showers', icon: 'assets/rain_icon-1775569720443.png' },
+    85: { desc: 'Slight snow showers', icon: 'assets/cloud_icon-1775569699824.png' },
+    86: { desc: 'Heavy snow showers', icon: 'assets/cloud_icon-1775569699824.png' },
+    95: { desc: 'Thunderstorm', icon: 'assets/rain_icon-1775569720443.png' },
+    96: { desc: 'Thunderstorm with slight hail', icon: 'assets/rain_icon-1775569720443.png' },
+    99: { desc: 'Thunderstorm with heavy hail', icon: 'assets/rain_icon-1775569720443.png' }
 };
 
 // Helper to get emoji icon or a fallback
-function getWeatherEmoji(code) {
-    return weatherCodes[code]?.icon || '❓';
+function getWeatherIcon(code) {
+    return weatherCodes[code]?.icon || 'assets/sun_icon-1775569678167.png';
 }
 
 function getWeatherDescription(code) {
@@ -121,7 +121,7 @@ function updateUI(data, cityName, countryCode) {
     // Main stats
     elements.currentTemp.textContent = Math.round(current.temperature_2m);
     elements.weatherDesc.textContent = getWeatherDescription(current.weather_code);
-    elements.weatherIcon.textContent = getWeatherEmoji(current.weather_code);
+    elements.weatherIcon.src = getWeatherIcon(current.weather_code);
 
     // Details
     elements.humidity.textContent = `${Math.round(current.relative_humidity_2m)}%`;
@@ -138,7 +138,7 @@ function updateUI(data, cityName, countryCode) {
         const code = daily.weather_code[i];
         const max = Math.round(daily.temperature_2m_max[i]);
         const min = Math.round(daily.temperature_2m_min[i]);
-        const emoji = getWeatherEmoji(code);
+        const icon = getWeatherIcon(code);
 
         const dayName = new Date(date).toLocaleDateString(undefined, { weekday: 'short' });
 
@@ -146,7 +146,7 @@ function updateUI(data, cityName, countryCode) {
         card.className = 'forecast-card';
         card.innerHTML = `
             <span class="day">${dayName}</span>
-            <div class="forecast-icon" style="font-size: 1.5rem; margin-bottom: 8px;">${emoji}</div>
+            <img src="${icon}" class="forecast-icon" alt="${getWeatherDescription(code)}" style="width: 40px; height: 40px; margin-bottom: 8px;">
             <div class="temp">
                 <span class="temp-max">${max}°</span>
                 <span class="temp-min">${min}°</span>
