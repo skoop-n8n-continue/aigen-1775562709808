@@ -28,39 +28,39 @@ const elements = {
 
 // Weather codes mapping for Open-Meteo
 const weatherCodes = {
-    0: { desc: 'Clear sky', icon: 'assets/sun_icon-1775569678167.png' },
-    1: { desc: 'Mainly clear', icon: 'assets/sun_icon-1775569678167.png' },
-    2: { desc: 'Partly cloudy', icon: 'assets/cloud_icon-1775569699824.png' },
-    3: { desc: 'Overcast', icon: 'assets/cloud_icon-1775569699824.png' },
-    45: { desc: 'Foggy', icon: 'assets/cloud_icon-1775569699824.png' },
-    48: { desc: 'Depositing rime fog', icon: 'assets/cloud_icon-1775569699824.png' },
-    51: { desc: 'Light drizzle', icon: 'assets/rain_icon-1775569720443.png' },
-    53: { desc: 'Moderate drizzle', icon: 'assets/rain_icon-1775569720443.png' },
-    55: { desc: 'Dense drizzle', icon: 'assets/rain_icon-1775569720443.png' },
-    56: { desc: 'Light freezing drizzle', icon: 'assets/rain_icon-1775569720443.png' },
-    57: { desc: 'Dense freezing drizzle', icon: 'assets/rain_icon-1775569720443.png' },
-    61: { desc: 'Slight rain', icon: 'assets/rain_icon-1775569720443.png' },
-    63: { desc: 'Moderate rain', icon: 'assets/rain_icon-1775569720443.png' },
-    65: { desc: 'Heavy rain', icon: 'assets/rain_icon-1775569720443.png' },
-    66: { desc: 'Light freezing rain', icon: 'assets/rain_icon-1775569720443.png' },
-    67: { desc: 'Heavy freezing rain', icon: 'assets/rain_icon-1775569720443.png' },
-    71: { desc: 'Slight snow fall', icon: 'assets/cloud_icon-1775569699824.png' },
-    73: { desc: 'Moderate snow fall', icon: 'assets/cloud_icon-1775569699824.png' },
-    75: { desc: 'Heavy snow fall', icon: 'assets/cloud_icon-1775569699824.png' },
-    77: { desc: 'Snow grains', icon: 'assets/cloud_icon-1775569699824.png' },
-    80: { desc: 'Slight rain showers', icon: 'assets/rain_icon-1775569720443.png' },
-    81: { desc: 'Moderate rain showers', icon: 'assets/rain_icon-1775569720443.png' },
-    82: { desc: 'Violent rain showers', icon: 'assets/rain_icon-1775569720443.png' },
-    85: { desc: 'Slight snow showers', icon: 'assets/cloud_icon-1775569699824.png' },
-    86: { desc: 'Heavy snow showers', icon: 'assets/cloud_icon-1775569699824.png' },
-    95: { desc: 'Thunderstorm', icon: 'assets/rain_icon-1775569720443.png' },
-    96: { desc: 'Thunderstorm with slight hail', icon: 'assets/rain_icon-1775569720443.png' },
-    99: { desc: 'Thunderstorm with heavy hail', icon: 'assets/rain_icon-1775569720443.png' }
+    0: { desc: 'Clear sky', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fsun_icon-1775574198376.png' },
+    1: { desc: 'Mainly clear', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fsun_icon-1775574198376.png' },
+    2: { desc: 'Partly cloudy', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    3: { desc: 'Overcast', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    45: { desc: 'Foggy', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    48: { desc: 'Depositing rime fog', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    51: { desc: 'Light drizzle', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    53: { desc: 'Moderate drizzle', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    55: { desc: 'Dense drizzle', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    56: { desc: 'Light freezing drizzle', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    57: { desc: 'Dense freezing drizzle', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    61: { desc: 'Slight rain', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    63: { desc: 'Moderate rain', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    65: { desc: 'Heavy rain', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    66: { desc: 'Light freezing rain', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    67: { desc: 'Heavy freezing rain', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    71: { desc: 'Slight snow fall', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    73: { desc: 'Moderate snow fall', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    75: { desc: 'Heavy snow fall', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    77: { desc: 'Snow grains', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    80: { desc: 'Slight rain showers', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    81: { desc: 'Moderate rain showers', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    82: { desc: 'Violent rain showers', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    85: { desc: 'Slight snow showers', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    86: { desc: 'Heavy snow showers', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloud_icon-1775574225915.png' },
+    95: { desc: 'Thunderstorm', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    96: { desc: 'Thunderstorm with slight hail', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' },
+    99: { desc: 'Thunderstorm with heavy hail', icon: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frain_icon-1775574257622.png' }
 };
 
 // Helper to get emoji icon or a fallback
 function getWeatherIcon(code) {
-    return weatherCodes[code]?.icon || 'assets/sun_icon-1775569678167.png';
+    return weatherCodes[code]?.icon || 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fsun_icon-1775574198376.png';
 }
 
 function getWeatherDescription(code) {
