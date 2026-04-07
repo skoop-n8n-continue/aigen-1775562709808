@@ -24,7 +24,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background: linear-gradient(135deg, rgba(224, 234, 252, 0.8) 0%, rgba(207, 222, 243, 0.8) 100%), url('https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fweather_hero_bg-1775564485331.png');
+    background: linear-gradient(135deg, rgba(16, 24, 31, 0.7) 0%, rgba(0, 183, 175, 0.4) 100%), url('https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fweather_app_background-1775565469263.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -33,10 +33,11 @@ body {
 .app-container {
     width: 100%;
     max-width: 800px;
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     padding: 30px;
     min-height: 500px;
     display: flex;
