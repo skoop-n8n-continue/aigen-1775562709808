@@ -9,6 +9,7 @@ const NETWORK_ONLY_HOSTS = [
   'openweathermap.org',
   'api.weatherapi.com',
   'wttr.in',
+  'open-meteo.com',
 ];
 
 // ---------------------------------------------------------------------------
