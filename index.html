@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>SkyCast - Modern Weather</title>
-    <link rel="stylesheet" href="styles.css?v=x9r2t5">
+    <link rel="stylesheet" href="styles.css?v=w3a4b9">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -20,9 +20,15 @@
                 <span class="icon">☀️</span>
                 <h1>SkyCast</h1>
             </div>
-            <div class="search-box">
-                <input type="text" id="city-input" placeholder="Search city..." autocomplete="off">
-                <button id="search-btn">🔍</button>
+            <div class="header-actions">
+                <div class="unit-toggle">
+                    <button id="unit-c" class="active">°C</button>
+                    <button id="unit-f">°F</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="city-input" placeholder="Search city..." autocomplete="off">
+                    <button id="search-btn">🔍</button>
+                </div>
             </div>
         </header>
 
@@ -38,7 +44,7 @@
                     </div>
                     <div class="condition">
                         <div id="weather-icon-display" style="margin-bottom: 10px;">
-                            <img id="weather-hero-img" src="https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fsun_icon-1775574198376.png?v=x9r2t5" alt="Weather" style="width: 100px; height: 100px; object-fit: contain;">
+                            <img id="weather-hero-img" src="https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fsun_icon-1775574198376.png?v=w3a4b9" alt="Weather" style="width: 100px; height: 100px; object-fit: contain;">
                         </div>
                         <p id="weather-desc">--</p>
                     </div>
@@ -61,6 +67,13 @@
                         <span class="label">UV Index</span>
                         <span class="value" id="uv-index">--</span>
                     </div>
+                </div>
+            </section>
+
+            <section class="hourly-forecast">
+                <h3>Hourly Forecast</h3>
+                <div id="hourly-container" class="hourly-grid">
+                    <!-- Hourly items will be injected here -->
                 </div>
             </section>
 
@@ -90,7 +103,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=x9r2t5"></script>
+    <script src="script.js?v=w3a4b9"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {

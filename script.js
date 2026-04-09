@@ -22,12 +22,30 @@ const elements = {
     windSpeed: document.getElementById('wind-speed'),
     feelsLike: document.getElementById('feels-like'),
     uvIndex: document.getElementById('uv-index'),
+    unitC: document.getElementById('unit-c'),
+    unitF: document.getElementById('unit-f'),
 
-    forecastContainer: document.getElementById('forecast-container')
+    forecastContainer: document.getElementById('forecast-container'),
+    hourlyContainer: document.getElementById('hourly-container')
+};
+
+// State management
+const state = {
+    unit: localStorage.getItem('weather-unit') || 'C',
+    weatherData: null,
+    cityName: '',
+    countryCode: ''
 };
 
 // Version for cache busting
-const VERSION = 'x9r2t5';
+const VERSION = 'w3a4b9';
+
+// Background images mapping
+const weatherBackgrounds = {
+    sunny: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fweather_app_background-1775574172739.png',
+    cloudy: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Fcloudy_background-1775574172739.png', // Fallback if not exists
+    rainy: 'https://skoop-dev-code-agent.s3.us-east-1.amazonaws.com/skoop-n8n-continue%2Faigen-1775562709808%2Fassets%2Frainy_background-1775574172739.png'  // Fallback if not exists
+};
 
 // Weather codes mapping for Open-Meteo
 const weatherCodes = {
@@ -70,6 +88,23 @@ function getWeatherDescription(code) {
     return weatherCodes[code]?.desc || 'Unknown';
 }
 
+// Temperature conversion
+function convertTemp(celsius) {
+    if (state.unit === 'C') return Math.round(celsius);
+    return Math.round((celsius * 9/5) + 32);
+}
+
+// Background updater
+function updateBackground(code) {
+    let bgType = 'sunny';
+    if ([2, 3, 45, 48].includes(code)) bgType = 'cloudy';
+    if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(code)) bgType = 'rainy';
+
+    // We use a CSS variable or direct style
+    const bgUrl = weatherBackgrounds[bgType] || weatherBackgrounds.sunny;
+    document.body.style.backgroundImage = `linear-gradient(135deg, rgba(16, 24, 31, 0.7) 0%, rgba(0, 183, 175, 0.4) 100%), url('${bgUrl}')`;
+}
+
 // Format date
 function formatDate(dateStr) {
     const options = { weekday: 'long', month: 'short', day: 'numeric' };
@@ -98,12 +133,19 @@ async function getCoordinates(city) {
 async function fetchWeather(lat, lon, cityName, countryCode) {
     showLoading(true);
     try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=auto`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,cloud_cover,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=auto`;
 
         const response = await fetch(url, { cache: 'no-store' });
         const data = await response.json();
 
-        updateUI(data, cityName, countryCode);
+        state.weatherData = data;
+        state.cityName = cityName;
+        state.countryCode = countryCode;
+
+        // Save last search
+        localStorage.setItem('last-weather-search', JSON.stringify({ lat, lon, cityName, countryCode }));
+
+        updateUI();
         showLoading(false);
     } catch (error) {
         console.error('Weather fetch error:', error);
@@ -113,24 +155,61 @@ async function fetchWeather(lat, lon, cityName, countryCode) {
 }
 
 // Update UI with data
-function updateUI(data, cityName, countryCode) {
+function updateUI() {
+    if (!state.weatherData) return;
+
+    const data = state.weatherData;
+    const cityName = state.cityName;
+    const countryCode = state.countryCode;
+
     const current = data.current;
     const daily = data.daily;
+    const hourly = data.hourly;
 
     // Header
     elements.cityName.textContent = `${cityName}${countryCode ? ', ' + countryCode : ''}`;
     elements.currentDate.textContent = formatDate(new Date());
 
     // Main stats
-    elements.currentTemp.textContent = Math.round(current.temperature_2m);
+    elements.currentTemp.textContent = convertTemp(current.temperature_2m);
+    const unitElement = elements.currentTemp.nextElementSibling;
+    if (unitElement && unitElement.classList.contains('unit')) {
+        unitElement.textContent = `°${state.unit}`;
+    }
     elements.weatherDesc.textContent = getWeatherDescription(current.weather_code);
     elements.weatherIcon.src = getWeatherIcon(current.weather_code);
+    updateBackground(current.weather_code);
 
     // Details
     elements.humidity.textContent = `${Math.round(current.relative_humidity_2m)}%`;
     elements.windSpeed.textContent = `${current.wind_speed_10m} km/h`;
-    elements.feelsLike.textContent = `${Math.round(current.apparent_temperature)}°C`;
+    elements.feelsLike.textContent = `${convertTemp(current.apparent_temperature)}°${state.unit}`;
     elements.uvIndex.textContent = daily.uv_index_max[0];
+
+    // Hourly Forecast (Next 12 hours)
+    elements.hourlyContainer.innerHTML = '';
+    const now = new Date();
+    const currentHour = now.getHours();
+    const hourlyStartIndex = currentHour;
+
+    for (let i = hourlyStartIndex; i < hourlyStartIndex + 12; i++) {
+        if (i >= hourly.time.length) break;
+
+        const time = new Date(hourly.time[i]);
+        const temp = convertTemp(hourly.temperature_2m[i]);
+        const code = hourly.weather_code[i];
+        const icon = getWeatherIcon(code);
+        const displayTime = time.getHours() === currentHour ? 'Now' : time.toLocaleTimeString(undefined, { hour: 'numeric' });
+
+        const item = document.createElement('div');
+        item.className = 'hourly-item';
+        item.innerHTML = `
+            <span class="time">${displayTime}</span>
+            <img src="${icon}" alt="${getWeatherDescription(code)}">
+            <span class="temp">${temp}°</span>
+        `;
+        elements.hourlyContainer.appendChild(item);
+    }
 
     // Forecast
     elements.forecastContainer.innerHTML = '';
@@ -139,8 +218,8 @@ function updateUI(data, cityName, countryCode) {
     for (let i = 1; i < daily.time.length; i++) {
         const date = daily.time[i];
         const code = daily.weather_code[i];
-        const max = Math.round(daily.temperature_2m_max[i]);
-        const min = Math.round(daily.temperature_2m_min[i]);
+        const max = convertTemp(daily.temperature_2m_max[i]);
+        const min = convertTemp(daily.temperature_2m_min[i]);
         const icon = getWeatherIcon(code);
 
         const dayName = new Date(date).toLocaleDateString(undefined, { weekday: 'short' });
@@ -149,7 +228,7 @@ function updateUI(data, cityName, countryCode) {
         card.className = 'forecast-card';
         card.innerHTML = `
             <span class="day">${dayName}</span>
-            <img src="${icon}" class="forecast-icon" alt="${getWeatherDescription(code)}" style="width: 40px; height: 40px; margin-bottom: 8px;">
+            <img src="${icon}" class="forecast-icon" alt="${getWeatherDescription(code)}">
             <div class="temp">
                 <span class="temp-max">${max}°</span>
                 <span class="temp-min">${min}°</span>
@@ -181,6 +260,24 @@ function showError(msg) {
 }
 
 // Event Listeners
+elements.unitC.addEventListener('click', () => {
+    if (state.unit === 'C') return;
+    state.unit = 'C';
+    localStorage.setItem('weather-unit', 'C');
+    elements.unitC.classList.add('active');
+    elements.unitF.classList.remove('active');
+    updateUI();
+});
+
+elements.unitF.addEventListener('click', () => {
+    if (state.unit === 'F') return;
+    state.unit = 'F';
+    localStorage.setItem('weather-unit', 'F');
+    elements.unitF.classList.add('active');
+    elements.unitC.classList.remove('active');
+    updateUI();
+});
+
 elements.searchBtn.addEventListener('click', async () => {
     const city = elements.cityInput.value.trim();
     if (!city) return;
@@ -214,7 +311,18 @@ elements.getLocationBtn.addEventListener('click', () => {
     }
 });
 
-// Load default city on startup (optional)
-// window.addEventListener('load', () => {
-//     fetchWeather(51.5074, -0.1278, 'London', 'GB');
-// });
+// Initial load
+window.addEventListener('DOMContentLoaded', () => {
+    // Set active unit button
+    if (state.unit === 'F') {
+        elements.unitF.classList.add('active');
+        elements.unitC.classList.remove('active');
+    }
+
+    // Try loading last search
+    const lastSearch = localStorage.getItem('last-weather-search');
+    if (lastSearch) {
+        const { lat, lon, cityName, countryCode } = JSON.parse(lastSearch);
+        fetchWeather(lat, lon, cityName, countryCode);
+    }
+});
